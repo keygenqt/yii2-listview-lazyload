@@ -1,4 +1,4 @@
-Copyright (c) 2014 - 2016, Vitaliy Zarubin
+Copyright (c) 2014 - 2017, Vitaliy Zarubin
 
 http://keygenqt.ru/
 

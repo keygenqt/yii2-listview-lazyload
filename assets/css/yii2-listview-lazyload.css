@@ -1,0 +1,15 @@
+.yii2-listview-lazyload {
+    position: relative;
+}
+.yii2-listview-lazyload .lazy-load {
+    position: absolute;
+    bottom: -15px;
+    background: white;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    padding: 13px 0;
+}
+.yii2-listview-lazyload .lazy-load img {
+    width: 27px;
+}

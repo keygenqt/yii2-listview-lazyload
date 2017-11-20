@@ -1,6 +1,6 @@
 <?php
 
-namespace keygenqt\imageAjax;
+namespace keygenqt\lazyLoad;
 
 use \yii\web\AssetBundle;
 
@@ -9,9 +9,9 @@ use \yii\web\AssetBundle;
  */
 class ActiveAssets extends AssetBundle
 {
-	public $sourcePath = '@keygenqt/imageAjax/assets';
+	public $sourcePath = '@keygenqt/lazyLoad/assets';
 
 	public $css = [
-		'css/yii2-image-ajax.css'
+		'css/yii2-listview-lazyload.css'
 	];
 }
