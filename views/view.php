@@ -7,8 +7,7 @@
 
 <div id="listview-lazyLoad-<?= $widget->getId() ?>" class="yii2-listview-lazyload">
 
-    <div id="cache-<?= $widget->getId() ?>"></div>
-    <div id="cache-bottom-<?= $widget->getId() ?>"></div>
+    <div class="cache"></div>
 
     <?php \yii\widgets\Pjax::begin(['id' => 'pjax-listview-lazyLoad-' . $widget->getId(), 'timeout' => '3000']) ?>
         <?= $list ?>
@@ -20,44 +19,52 @@
 </div>
 
 <script>
-    var update = true;
-    $("body").on('scroll', function() {
-        if (update) {
-            var pagination = $('.yii2-listview-lazyload .pagination');
-            if (pagination.length) {
-                if (pagination.offset().top < $(this).height()) {
-                    var link = pagination.find('.next a');
-                    if (link.length) {
-                        var url = link.attr('href');
-                        pagination.remove();
-                        $(".yii2-listview-lazyload .items").appendTo("#cache-<?= $widget->getId() ?>");
-                        $.pjax.reload({container: '#<?= 'pjax-listview-lazyLoad-' . $widget->getId() ?>', 'url': url, async: false, replace: false});
-                    } else {
-                        pagination.remove();
-                        $('.lazy-load').remove();
-                    }
+    var update<?= $widget->getId() ?> = true,
+        timeOut<?= $widget->getId() ?> = null,
+        afterReplace<?= $widget->getId() ?> = <?= empty($widget->afterReplace) ? 'function() {}' : $widget->afterReplace->expression ?>
+
+    function getPagination<?= $widget->getId() ?>() {
+        var pag = $('#listview-lazyLoad-<?= $widget->getId() ?> .pagination'),
+            laz = $('#listview-lazyLoad-<?= $widget->getId() ?> .lazy-load'),
+            lastActive = $('.last.active').length;
+        if (lastActive) {
+            pag.remove();
+            laz.remove();
+            return null;
+        }
+        return pag;
+    }
+
+    $("<?= $widget->elScroll ?>").on('scroll', function() {
+        if (update<?= $widget->getId() ?>) {
+            var self = this;
+            clearTimeout(timeOut<?= $widget->getId() ?>);
+            timeOut<?= $widget->getId() ?> = setTimeout(function() {
+                var pag = getPagination<?= $widget->getId() ?>();
+                if (pag && pag.offset() !== undefined && (pag.offset().top - $(self).offset().top) < $(self).height()) {
+                    $.pjax.reload({
+                        container: '#<?= 'pjax-listview-lazyLoad-' . $widget->getId() ?>',
+                        url: pag.find('.next a').attr('href'),
+                        async: false,
+                        replace: false
+                    });
                 }
-            } else {
-                $('.lazy-load').remove();
-            }
+            }, 200);
         }
     });
     $(document).on("pjax:beforeReplace", function() {
-        update = false;
-    });
-    $(document).on("pjax:success", function() {
-        $('body').scrollTop($('body').scrollTop() + $('#cache-bottom-<?= $widget->getId() ?>').offset().top + 17);
-        update = true;
-        updateForm();
-    });
-    $('form').on('keyup keypress', function(e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 13) {
-            e.preventDefault();
-            return false;
-        }
+        var $block = $("#listview-lazyLoad-<?= $widget->getId() ?>");
+        $block.find('.items').appendTo($block.find('.cache'));
+        $block.find('.pagination').remove();
+        update<?= $widget->getId() ?> = false;
+    }).on("pjax:success", function() {
+        var $block = $("#listview-lazyLoad-<?= $widget->getId() ?>");
+        $('<?= $widget->elScroll ?>').scrollTop($block.find('.cache').height());
+        getPagination<?= $widget->getId() ?>();
+        update<?= $widget->getId() ?> = true;
+        afterReplace<?= $widget->getId() ?>();
     });
     $(function () {
-        $("body").scroll();
+        $("<?= $widget->elScroll ?>").scroll();
     });
 </script>

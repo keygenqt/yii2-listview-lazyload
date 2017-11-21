@@ -5,6 +5,8 @@ namespace keygenqt\lazyLoad;
 class ListView extends \yii\widgets\ListView
 {
     public $emptyText;
+    public $elScroll = 'body';
+    public $afterReplace;
 
     private $_bundle;
 
