@@ -66,5 +66,6 @@
     });
     $(function () {
         $("<?= $widget->elScroll ?>").scroll();
+        getPagination<?= $widget->getId() ?>();
     });
 </script>
