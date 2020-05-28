@@ -1,5 +1,8 @@
-yii2-listview-lazyload
+ListView LazyLoad
 ===================
+
+![GitHub](https://img.shields.io/github/license/keygenqt/yii2-listview-lazyload)
+![Packagist Downloads](https://img.shields.io/packagist/dt/keygenqt/yii2-listview-lazyload)
 
 ## Installation
 
@@ -14,13 +17,3 @@ Either add
 ```
 
 of your `composer.json` file.
-
-## Latest Release
-
-The latest version of the module is v0.5.0 `BETA`.
-
-## License
-
-**yii2-listview-lazyload** is released under the BSD 3-Clause License. See the bundled `LICENSE.md` for details.
-
-
